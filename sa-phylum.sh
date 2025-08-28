@@ -16,13 +16,13 @@ CONFIG_FILE="$HOME/.veracode/phylum"
 # Displays detailed help information for the script.
 show_help() {
   cat << EOF
-Usage: ./sa-phylum.sh -mode <demo|off> [options]
+Usage: ./sa-phylum.sh --mode <demo|off> [options]
 
 This script configures your package manager to either use the Phylum package firewall
 (demo mode) or revert to the default public registry (off mode).
 
 REQUIRED ARGUMENTS:
-  -mode, --m <demo|off>   Specify the operational mode.
+  --mode, -m <demo|off>   Specify the operational mode.
                             - 'demo': Route package manager traffic through the Phylum firewall.
                             - 'off':  Restore the default public registry settings.
 
@@ -50,13 +50,13 @@ If these variables are not found, the script will exit with an error in 'demo' m
 
 EXAMPLES:
   # Enable Phylum firewall for npm
-  ./sa-phylum.sh -mode demo
+  ./sa-phylum.sh --mode demo
 
   # Disable Phylum firewall for npm
-  ./sa-phylum.sh -mode off
+  ./sa-phylum.sh --mode off
 
   # Explicitly specify the npm ecosystem (demo mode)
-  ./sa-phylum.sh -mode demo -e npm
+  ./sa-phylum.sh --mode demo -e npm
 EOF
 }
 
@@ -106,14 +106,14 @@ PHYLUM_API_KEY=${PHYLUM_API_KEY:-}
 # --- Input Validation ---
 # Check if the mode parameter was provided.
 if [[ -z "$MODE" ]]; then
-  echo "Error: The -mode parameter is required."
+  echo "Error: The --mode parameter is required."
   show_help
   exit 1
 fi
 
 # Check if the mode has a valid value.
 if [[ "$MODE" != "demo" && "$MODE" != "off" ]]; then
-  echo "Error: Invalid value for -mode. Must be 'demo' or 'off'."
+  echo "Error: Invalid value for --mode. Must be 'demo' or 'off'."
   show_help
   exit 1
 fi
