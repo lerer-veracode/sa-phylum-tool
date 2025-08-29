@@ -1,12 +1,14 @@
 ## SA Phylum Tool
 The SA Phylum utility was made to support demo processes with easy commands to turn on/off the Phylum firewall feature.
-> if needed, we can enhance the script to use MAVEN, PyPi or others. As well we can modify it to use the GROUPs instead of FIREWALL
+
+> ATM, the script only support NPM. If needed, we can enhance the script to use MAVEN, PyPi or others. 
 
 In order to set it up, you'll need to create a file name: `phylum` at the `.veracode` folder. 
 
 The content of the `phylum` file should be as follow:
 ```
-FIREWALL_NAME="your-firewall-name"
+PHYLUM_ORG_NAME="your-organization-name-case-sensitive"
+PHYLUM_GROUP_NAME="your-phylum-group-name"
 PHYLUM_API_KEY="your-phylum-api-key"
 ```
 ---

@@ -33,17 +33,19 @@ OPTIONAL ARGUMENTS:
   -h, --help              Display this help message and exit.
 
 CONFIGURATION:
-The script requires two variables: FIREWALL_NAME and PHYLUM_API_KEY.
+The script requires three variables: PHYLUM_ORG_NAME, PHYLUM_GROUP_NAME, and PHYLUM_API_KEY.
 It will look for these variables in the following order:
 
 1. A configuration file located at: $CONFIG_FILE
    The file should contain:
-   FIREWALL_NAME="your-firewall-name"
+   PHYLUM_ORG_NAME="your-organization-name-case-sensitive"
+   PHYLUM_GROUP_NAME="your-phylum-group-name"
    PHYLUM_API_KEY="your-phylum-api-key"
 
 2. Environment variables.
    You can set them using:
-   export FIREWALL_NAME="your-firewall-name"
+   export PHYLUM_ORG_NAME="your-organization-name-case-sensitive"
+   export PHYLUM_GROUP_NAME="your-phylum-group-name"
    export PHYLUM_API_KEY="your-phylum-api-key"
 
 If these variables are not found, the script will exit with an error in 'demo' mode.
@@ -99,7 +101,8 @@ if [[ -f "$CONFIG_FILE" ]]; then
 fi
 
 # Fallback to environment variables if not set in the file
-FIREWALL_NAME=${FIREWALL_NAME:-}
+PHYLUM_ORG_NAME=${PHYLUM_ORG_NAME:-}
+PHYLUM_GROUP_NAME=${PHYLUM_GROUP_NAME:-}
 PHYLUM_API_KEY=${PHYLUM_API_KEY:-}
 
 
@@ -120,8 +123,8 @@ fi
 
 # If in demo mode, ensure credentials are set.
 if [[ "$MODE" == "demo" ]]; then
-  if [[ -z "$FIREWALL_NAME" || -z "$PHYLUM_API_KEY" ]]; then
-    echo "Error: FIREWALL_NAME and PHYLUM_API_KEY must be set for 'demo' mode."
+  if [[ -z "$PHYLUM_GROUP_NAME" || -z "$PHYLUM_API_KEY" || -z "$PHYLUM_ORG_NAME" ]]; then
+    echo "Error: PHYLUM_ORG_NAME and PHYLUM_GROUP_NAME and PHYLUM_API_KEY must be set for 'demo' mode."
     echo "Please set them in $CONFIG_FILE or as environment variables."
     exit 1
   fi
@@ -135,7 +138,7 @@ case $ECOSYSTEM_LOWER in
   npm)
     if [[ "$MODE" == "demo" ]]; then
       echo "Info: Configuring npm to use Phylum firewall..."
-      npm config set registry "https://"$FIREWALL_NAME":"$PHYLUM_API_KEY"@npm.phylum.io/"
+      npm config set registry "https://"$PHYLUM_ORG_NAME"%2F"$PHYLUM_GROUP_NAME":"$PHYLUM_API_KEY"@npm.phylum.io/"
       echo "Success: npm registry set to Phylum."
     elif [[ "$MODE" == "off" ]]; then
       echo "Info: Reverting npm to the default registry..."
